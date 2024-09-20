@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" href="style.css"/>
+  <title>Bardach AI</title>
+</head>
+<body>
+  <div class="page1">
+ <nav>
+      <h1 id="h1">Bardach AI</h1>
+      <div class="img">
+        <img id="img2" src="8.png" onclick="showNotification()">
+        <a href="https://myaccount.google.com/profile"><img id="img" src="9.jpg"></a>     
+      </div>
+    </nav>
+    <div id="time"></div>
+      <div id="greeting"></div>
+    <div id="search bar">
+      <input type="text" id="data" placeholder="Search on youtube..." value="" required>
+      <span class="cross-button1" onclick="deletetext()"></span>
+      <img id="mic" src="Mic.svg">   
+    </div>   
+    <div id="notification">
+      <h1 id="notify">Notification</h1>
+      <span class="cross-button" onclick="hideNotification()"></span>
+      <p id="p">No notification right now</p>
+    </div>
+    <div class="icons">
+      <div id="gemimi">
+        <a href="hello.html"><img class="img" id="gemimi" src="images.png"></a>
+      </div>
+      <div id="youtube">
+        <a href="https://youtube.com"> <img class="img" id="youtube" src="images.jpeg"> </a>
+      </div>
+      <div id="google">
+        <a href="https://bing.com"><img class="img" id="google" src="Bing.jpeg"></a>
+      </div>
+      <div id="facebook">
+        <a href="https://facebook.com"> <img class="img" id="facebook" src="in.png"></a>
+      </div>
+      <div id="settings">
+        <img class="img" id="settings" src="0.png" onclick="showdiv()">
+      </div>
+    </div>
+    <div id="hy">
+      <span class="cross-button2" onclick="hidediv()"></span>
+      <div class="options">
+        <div class="option1"><a href="https://myaccount.google.com/profile"><h2>Profile</h2></a></div>
+        <div class="option2"><a href="/storage/emulated/0/Bardach/page1.html"><h2>Browse Themes</h2></a></div>
+      </div>
+    </div>
+    <button class="searchBtn"></button>
+  </div>
+  <script>
+  function showNotification() {
+    document.getElementById('notification').style.transform = 'translateY(0)';
+    document.getElementById('notification').style.opacity = 1;
+  }
+  function hideNotification() {
+    document.getElementById('notification').style.transform = 'translateY(100%)';
+    document.getElementById('notification').style.opacity = 0;
+  }
+  function showdiv() {
+    document.getElementById('hy').style.transform = 'translateY(0)';
+    document.getElementById('hy').style.opacity = 1;
+  }
+  function hidediv() {
+    document.getElementById('hy').style.opacity = 0;
+  }
+  function deletetext() {
+  // Get the textbox element by its ID
+  const textbox = document.getElementById('data');
+  
+  // Clear the text from the textbox
+  textbox.value = '';
+}
+// script.js
+
+// Check if the browser supports the Web Speech API
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SpeechRecognition) {
+    alert('Your browser does not support the Web Speech API');
+}
+
+const recognition = new SpeechRecognition();
+recognition.continuous = true;
+recognition.interimResults = true;
+
+const inputBox = document.getElementById('data');
+const startImg = document.getElementById('mic');
+
+let isRecognizing = false;
+
+recognition.onstart = () => {
+    isRecognizing = true;
+    startImg.src = 'stop.svg'; // Change to a stop image or update style
+    startImg.classList.add('active'); // Optional: change appearance when active
+};
+
+recognition.onend = () => {
+    isRecognizing = false;
+    startImg.src = 'Mic.svg'; // Change to a start image or update style
+    startImg.classList.remove('active'); // Optional: change appearance when not active
+};
+
+recognition.onresult = (event) => {
+    let transcript = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+    }
+    // Update the value of the input box
+    inputBox.value = transcript;
+};
+
+startImg.addEventListener('click', () => {
+    if (isRecognizing) {
+        recognition.stop();
+    } else {
+        recognition.start();
+    }
+});
+  function updateClock() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+  document.getElementById('time').textContent = `${hours}:${minutes}`;
+}
+
+// Update the clock every second
+setInterval(updateClock, 1000);
+
+// Initialize clock on page load
+updateClock();
+  function updateClockAndGreeting() {
+  const now = new Date();
+  const hours = now.getHours().toString().padStart(2, '0');
+  const minutes = now.getMinutes().toString().padStart(2, '0');
+  const seconds = now.getSeconds().toString().padStart(2, '0');
+
+  let greeting;
+  if (hours < 12) {
+    greeting = 'Good Morning!';
+  } else if (hours < 18) {
+    greeting = 'Good Afternoon !';
+  } else {
+    greeting = 'Good Evening!';
+  }
+
+  document.getElementById('greeting').textContent = greeting;
+  document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+}
+
+// Update the clock and greeting every second
+setInterval(updateClockAndGreeting, 1000);
+
+// Initialize on page load
+updateClockAndGreeting();
+</script>
+  <script>
+  let query = document.getElementById('data');
+  let searchBtn = document.querySelector('.searchBtn');
+  
+  searchBtn.onclick = function(){
+    let url = "https://m.youtube.com/results?sp=mAEA&search_query="+query.value;
+    window.open(url);
+  }
+  document.getElementById('data').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent the default action of the Enter key
+        const query = document.getElementById('data').value.trim(); // Get trimmed value of the input field
+        if (query !== '') {
+          document.querySelector('.searchBtn').click(); // Trigger the click if input is not empty
+        } else {
+          alert('Please enter a search term.'); // Optional: alert if the input is empty
+        }
+      }
+    });
+  </script>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap');
+html, body {
+  height: 100%; /* Ensures that both html and body cover the full viewport height */
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+body {
+  margin: 0; /* Ensure no default margin */
+  position: relative;
+  background-image: url('/storage/emulated/0/Bardach/Windows.jpg');
+  background-size: cover; /* Scale the image to cover the entire background */
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat;
+  padding: 0;
+  min-height: 100vh;
+  background-attatchment: fixed;
+}
+#h1 {
+  font-size: 52px;
+  font-family: "Protest Guerrilla", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  padding-left: 30px;
+  display: inline;
+  -webkit-text-stroke: 2px #ccc;
+  align-items: center;
+  position: relative;
+}
+.icons{
+  top: 17vh;
+  position: relative;
+  display: flex;
+  margin-left: 18vw;
+  z-index: 1;
+}
+#gemimi{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  margin-left: 15px;
+}
+#youtube{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  margin-left: 15px;
+}
+#google{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  margin-left: 15px;
+}
+#facebook{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  margin-left: 15px;
+}
+#settings{
+  height: 100px;
+  width: 100px;
+  border-radius: 100px;
+  margin-left: 15px;
+}
+#img {
+  height: 50px;
+  width: 50px;
+  border-radius: 40px;
+  margin-left: 2.7vw; 
+  position: relative;
+  top: 50px;
+  margin-right: 15px;
+  position: relative;
+  cursor: pointer; 
+}
+
+nav {
+  display: flex;
+  height: 270px;
+  width: 100vw;
+  position: relative;
+}
+
+.img {
+  display: flex;
+  position: relative;
+}
+
+#img2 {
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  margin-left: 63vw; 
+  position: relative;
+  top: 50px;
+  cursor: pointer;
+}
+
+#notification {
+  height: 30vh;
+  width: 70vw;
+  /*background: #cdcdcd;*/
+  border-radius: 25px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(100%); /* Start off-screen */
+  transition: transform 0.4s, opacity 0.4s;
+  margin-left: 18vw;
+  margin-top: 10vh;
+  left: 0;
+  color: #fff;
+  padding-top: 40px;
+  backdrop-filter: blur(53px); /* Adjust the blur level */
+  z-index: 1; /* Ensure it above other content */
+   font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}  
+#notification #notify {
+  font-weight: 350;
+  font-size: 33px;
+  position: relative;
+  top: 20px;
+}
+
+.cross-button {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  margin-left: 55vw;
+  top: -56px;
+}
+
+.cross-button::before, .cross-button::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #fff; /* White cross */
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cross-button::before {
+  transform: rotate(45deg) translateY(-50%);
+}
+
+.cross-button::after {
+  transform: rotate(-45deg) translateY(-50%);
+}
+.cross-button1 {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  margin-left: 88vw;
+  top: 32px;
+}
+
+.cross-button1::before, .cross-button1::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #000; /* White cross */
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cross-button1::before {
+  transform: rotate(45deg) translateY(-50%);
+}
+
+.cross-button1::after {
+  transform: rotate(-45deg) translateY(-50%);
+}
+.cross-button2 {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  cursor: pointer;
+  top: 32px;
+  margin-left: 643px;
+}
+
+.cross-button2::before, .cross-button2::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #fff; /* White cross */
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.cross-button2::before {
+  transform: rotate(45deg) translateY(-50%);
+}
+
+.cross-button2::after {
+  transform: rotate(-45deg) translateY(-50%);
+}
+#data{
+  height: 90px;
+  width: 90vw;
+  outline: none;
+  margin-left: 3.2vw;
+  border-radius: 90px;
+  padding-left: 30px;
+  font-size: 28px;
+  position: fixed;
+}
+#hy{
+  height: 500px;
+  width: 700px;
+  margin-left: 15vw;
+  position: relative;
+  top: -300px;
+  opacity: 0;
+  backdrop-filter: blur(50px);
+  transition: opacity 0.3s;
+  border-radius: 40px;
+}
+#hy .option1{
+  height: 150px;
+  width: 550px;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  margin-top: 50px;
+  margin-left: 36px;
+  border-radius: 150px;
+  font-size: 2.3em;
+  padding-left: 60px;
+  padding-top: 7px;
+  color: #fff;
+  cursor: pointer;
+}
+a{
+  text-decoration: none;
+  color: inherit;
+}
+a:hover{
+  text-decoration: ubderline;
+  color: inherit;
+}
+
+#hy .option2{
+  height: 150px;
+  width: 550px;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  margin-top: 30px;
+  margin-left: 36px;
+  border-radius: 150px;
+  font-size: 2.3em;
+  padding-left: 60px;
+  padding-top: 7px;
+  color: #fff;
+  cursor: pointer;
+}
+#mic{
+  height: 40px;
+  width: 40px;
+  z-index: 1;
+  position: relative;
+  padding-right: 40px;
+  margin-left: 790px;
+  top: -10px;
+  cursor: pointer;
+}
+#time{
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  font-size: 78px;
+  margin-left: 40px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+#greeting{
+  font-size: 70px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+  margin-left: 40px;
+  color: #fff;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+  </style>
+</body>
+</html>

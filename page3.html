@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Select a search engine</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+  body{
+    margin: 30px;
+    color: white;
+    background-image: url('Windows.jpg');
+    font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  }
+    label {
+      display: flex;
+      align-items: center;
+    }
+    h3 {
+      margin: 0 10px 0 0; /* Adjust spacing between text and radio button */
+      font-size: 60px;
+    }
+  h2 {
+      margin: 0 30px 0 0; /* Adjust spacing between text and radio button */
+    margin-bottom: 30px;
+     font-size: 90px;
+    }
+  input{
+    height: 40px;
+    width: 40px;
+    margin-left: 20px;
+  }
+  </style>
+  <script>
+    function openPage() {
+      const selectedPage = document.querySelector('input[name="searchEngine"]:checked').value;
+      window.location.href = selectedPage;
+    }
+  </script>
+</head>
+<body>
+  <h2>Search Engines</h2>
+  
+  <label>
+    <h3>Default</h3>
+    <input type="radio" name="searchEngine" value="index.html" onclick="openPage()" checked>
+  </label><br>
+  
+  <label>
+    <h3>Google</h3>
+    <input type="radio" name="searchEngine" value="page2.html" onclick="openPage()">
+  </label><br>
+  
+  <label>
+    <h3>Bing</h3>
+    <input type="radio" name="searchEngine" value="page4.html" onclick="openPage()">
+  </label><br>
+  
+  <label>
+    <h3>Books</h3>
+    <input type="radio" name="searchEngine" value="page5.html" onclick="openPage()">
+  </label>
+</body>
+</html>
